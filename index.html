@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Point Distance</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #map-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.8);
+      margin-right: 20px;
+      margin-top: 20px;
+      padding: 10px 0 0 10px;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+      width: 200px;
+      height: 50px;
+      border-radius: 3px;
+    }
+
+  </style>
+
+  <body>
+    <div id='map'></div>
+    <!--<div id='map-overlay'>Distance: </div> -->
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiamFjcXVlczUiLCJhIjoiY2ttMXpwd2pyNDhzbzJ2cW0yN2dsYXFnYyJ9.Df-9CQghAcj27PvWu8TagA';
+      var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/jacques5/ckmuoglzq56jc17pcpixp8ukp',
+        center: [2.426, 6.346],
+        zoom: 16
+      });
+
+      
+      //YOUR TURN: Replace var to = [lng, lat] with the lng/lat for Madison, WI [-89.384, 43.101] 
+      //YOUR TURN: Replace var to = [lng, lat] with the lng/lat for Chicago, Il [-87.627, 41.919] 
+
+      var from =  [2.426965, 6.348498]//lng, lat
+      var to = [2.425611,6.348434] //lng, lat 
+
+      var to_debor = 12
+      var from_debor = 6
+
+      var debor = (to_debor + from_debor)
+
+    /*  var greenMarker = new mapboxgl.Marker({
+          color: 'green'
+        })
+        .setLngLat(to) // marker position using variable 'to'
+        .addTo(map); //add marker to map
+
+      var purpleMarker = new mapboxgl.Marker({
+          color: 'purple'
+        })
+        .setLngLat(from) // marker position using variable 'from'
+        .addTo(map); //add marker to map */
+
+      var options = {
+        units: 'kilometers'
+      }; // units can be degrees, radians, miles, or kilometers, just be sure to change the units in the text box to match. 
+
+      var distance = turf.distance(to, from, options);
+      var dis = (distance * 1000)
+
+     // var value = document.getElementById('map-overlay')
+    //  value.innerHTML = "Distance: " + dis.toFixed([2]) + " m"
+
+map.on('load', function () {
+map.addSource('route', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'properties': {},
+'geometry': {
+'type': 'LineString',
+'coordinates': [
+[2.426965, 6.348498],
+[2.425611,6.348434]
+]
+}
+}
+});
+map.addLayer({
+'id': 'route',
+'type': 'line',
+'source': 'route',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#2AE504',
+'line-width': 5
+}
+});
+});
+
+
+
+map.on('load', function () {
+map.addSource('route2', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'properties': {},
+'geometry': {
+'type': 'LineString',
+'coordinates': [
+[2.428591,6.348596],
+[2.426965,6.348498]
+]
+}
+}
+});
+map.addLayer({
+'id': 'route2',
+'type': 'line',
+'source': 'route2',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#BE9A6B',
+'line-width': 7
+}
+});
+});
+
+
+
+
+map.on('load', function () {
+map.addSource('route3', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'properties': {},
+'geometry': {
+'type': 'LineString',
+'coordinates': [
+[2.425611,6.348434],
+[2.424436,6.348343]
+]
+}
+}
+});
+map.addLayer({
+'id': 'route3',
+'type': 'line',
+'source': 'route3',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#fc4353',
+'line-width': 7
+}
+});
+});
+
+            
+
+var popup = new mapboxgl.Popup({ closeOnClick: false })
+.setLngLat([2.426424,6.348464])
+.setHTML('Distance disponible <br> '+ dis.toFixed([2]) + " m")
+.addTo(map);
+
+    </script>
+  </body>
+
+</html>
