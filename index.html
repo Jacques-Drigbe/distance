@@ -24,6 +24,8 @@
       width: 100%;
     }
 
+    /*
+    // Styple du menu gauche 
     #map-overlay {
       position: absolute;
       top: 0;
@@ -38,14 +40,33 @@
       height: 60px;
       border-radius: 3px;
     }
+    */
 
   </style>
 
   <body>
     <div id='map'></div>
+    <!--  Div du menu Gauche
     <div id='map-overlay'>Distance: </div> 
+  -->
     <script>
+      // Carte MAPBOXE 
       mapboxgl.accessToken = 'pk.eyJ1IjoiamFjcXVlczUiLCJhIjoiY2ttMXpwd2pyNDhzbzJ2cW0yN2dsYXFnYyJ9.Df-9CQghAcj27PvWu8TagA';
+
+
+      // Appel du WebService VTR21 5/5
+
+   //   fetch('https://cors-anywhere.herokuapp.com/https://vtr21ben.pac.bj/WS_Escales')
+  // .then(res => res.json())
+   // .then(res2 => console.log(res2)); 
+
+// ici je les recupère 
+fetch('https://cors-anywhere.herokuapp.com/https://vtr21ben.pac.bj/WS_Escales')
+    .then(res => res.json())
+    .then(data => {       
+
+
+        // ici je upload la catre 
       var map = new mapboxgl.Map({
         container: 'map', // container id
         style: 'mapbox://styles/jacques5/ckmuoglzq56jc17pcpixp8ukp',
@@ -53,15 +74,432 @@
         zoom: 16
       });
 
-      
-      //YOUR TURN: Replace var to = [lng, lat] with the lng/lat for Madison, WI [-89.384, 43.101] 
-      //YOUR TURN: Replace var to = [lng, lat] with the lng/lat for Chicago, Il [-87.627, 41.919] 
 
-      var from =  [2.426965, 6.348498]//lng, lat
-      var to = [2.425611,6.348434] //lng, lat 
+      for (i = 0; i < data.length; i++){ // 
 
-      var to_debor = 12
-      var from_debor = 6
+        //  let positionDuBateau = [
+          // Pour avoir sa longitude tu vas devoir faire long_fin - lng_debut
+       //   [data[i].LATITUDE_DEBUT,data[i].LONGITUDE_DEBUT ],
+        //  [data[i].LATITUDE_FIN, data[i].LONGITUDE_FIN] 
+         //                  ]
+
+ // console.log(data[i].NAVIRE)
+//console.log(data[i].LEQUAI)
+
+
+
+  // ICI je selection uniquement les navire a quai 
+        if (data[i].SITUATION == 4 ){
+           
+          
+            console.log(data[i].NAVIRE);
+            console.log(data[i].LEQUAI);
+            console.log(data[i].LONGUEUR);
+
+ 
+         var bollards = [
+        //    QA_B1 = [2.426965, 6.348498],
+         // Q1B9 = [2.42183,6.345266], //Q2B9
+         // Q2B3 = [2.41981,6.345104], // Q2B3
+         // QA_B2 = [2.425611,6.348434],
+         // Q1B21 = [2.425881,6.348449],
+         // Q1B20 = [2.426154,6.348448],
+         // Q1B22 = [2.425611,6.348434]
+          ] 
+
+
+
+          //  data[i].LATITUDE_DEBUT = 2.425611;
+          //  data[i].LONGITUDE_DEBUT = 6.348434;
+          //  data[i].LATITUDE_FIN = 2.425881;
+          //  data[i].LONGITUDE_FIN = 6.348449;
+/*
+        var positionDuNavire =  dat.push( 
+         // Pour avoir sa longitude tu vas devoir faire long_fin - lng_debut
+          [data[i].LATITUDE_DEBUT,data[i].LONGITUDE_DEBUT ],
+          [data[i].LATITUDE_FIN, data[i].LONGITUDE_FIN] 
+        //Essaie je vais essaiyer avec les variable du webservoce
+            
+         )
+*/
+
+          //Récupération de la pisition du bateau à quai
+
+
+          //console.log(data[i]);
+
+   // var geojson = {'type': 'Feature', 'properties': {},'geometry': {'type': 'LineString','coordinates': [ [data[i].LATITUDE_DEBUT,data[i].LONGITUDE_DEBUT ],  [data[i].LATITUDE_FIN, data[i].LONGITUDE_FIN] ]}}
+
+       //   var positionDuNavire =  dat.push( 
+        //    // Pour avoir sa longitude tu vas devoir faire long_fin - lng_debut
+         // [data[i].LATITUDE_DEBUT,data[i].LONGITUDE_DEBUT ],
+         // [data[i].LATITUDE_FIN, data[i].LONGITUDE_FIN] 
+//Essaie je vais essaiyer avec les variable du webservoce
+            
+        //  )
+
+// 
+ console.log(data[i]);
+
+
+map.on('load', function () {
+map.addSource('route1', {
+'type': 'geojson',
+'data': {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.4331283569335938,
+            6.3482217541530765
+          ],
+          [
+            2.433069348335266,
+            6.348093797543224
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.429823875427246,
+            6.348669602037212
+          ],
+          [
+            2.4315297603607178,
+            6.348733580274583
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.423531,
+          6.348266
+          ],
+          [
+           2.422401,
+            6.348169
+
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.421589493751526,
+            6.345284075639497
+          ],
+          [
+            2.4197065830230713,
+            6.345145455186865
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.421589493751526,
+            6.345284075639497
+          ],
+          [
+            2.4197065830230713,
+            6.345145455186865
+          ]
+        ]
+      }
+    },
+      {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.4295127391815186,
+            6.348653607476636
+          ],
+          [
+            2.4285364151000977,
+            6.348610955312638
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.4326133728027344,
+            6.3470114966132325
+          ],
+          [
+            2.4318838119506836,
+            6.345380043623319
+          ]
+        ]
+      }
+    },
+      {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.4282467365264893,
+            6.348600292271104
+          ],
+          [
+            2.426535487174988,
+            6.348504324887223
+          ]
+        ]
+      }
+    },
+
+      {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.419610023498535,
+            6.347955177846674
+          ],
+          [
+            2.4213749170303345,
+            6.348093797543224
+          ]
+        ]
+      }
+    },
+      {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.424153685569763,
+            6.345513332460103
+          ],
+          [
+            2.4228930473327637,
+            6.345406701393439
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.4240195751190186,
+            6.3483337161606235
+          ],
+          [
+            2.425628900527954,
+            6.348467004233108
+          ]
+        ]
+      }
+    }
+
+
+
+
+
+  ]
+}
+});
+map.addLayer({
+'id': 'route1',
+'type': 'line',
+'source': 'route1',
+'layout': {
+'line-join': 'round',
+'line-cap': 'round'
+},
+'paint': {
+'line-color': '#fc4353',
+'line-opacity': 1,
+'line-width': 20
+}
+});
+});
+
+
+
+          
+ //  {'type': 'Feature','properties': {},'geometry': {'type': 'LineString','coordinates': [Q1B20, Q1B22]}}
+/*
+          map.on('load', function () {
+          map.addSource(`OH`, {
+          'type': 'geojson',
+          data: data1[1]
+          
+          });
+          map.addLayer({
+          'id': `OH`, // variable 2
+          'type': 'line',
+          'source': `OH`, // variable 2
+          'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+          },
+          'paint': {
+          'line-color': '#fc4353',
+          'line-width': 20
+          }
+          });
+          });
+
+*/
+
+
+
+   var from3 =  [ 2.433069348335266,6.348093797543224] 
+   var to3 =     [ 2.433069348335266,6.348093797543224]
+
+         var to_debor3 = 23
+      var from_debor3 = 20
+
+      var debor3 = (to_debor3 + from_debor3)
+
+      var options3 = {
+        units: 'kilometers'
+      }; // Important unité de mésure
+
+      var distance3 = turf.distance(to3, from3, options3); // Calcule la distance en kilomètre
+      var dis3 = (distance3 * 1000) // Conversion en mètre
+      var dist3 = (dis3 - debor3)
+
+var popup = new mapboxgl.Popup({ closeOnClick: false })
+.setLngLat([ 2.4222171306610107,6.345337391188274])
+.setHTML('Distance disponible <br> '+ dist3.toFixed([2]) + " m")
+.addTo(map);
+
+
+
+           
+          
+
+   var from2 = [ 2.4326133728027344,6.3470114966132325] 
+   var to2 = [ 2.433069348335266,6.348093797543224]     
+
+         var to_debor2 = 100
+      var from_debor2 = 80
+
+      var debor2 = (to_debor2 + from_debor2)
+
+      var options2 = {
+        units: 'kilometers'
+      }; // Important unité de mésure
+
+      var distance2 = turf.distance(to2, from2, options2); // Calcule la distance en kilomètre
+      var dis2 = (distance2 * 1000) // Conversion en mètre
+      var dist2 = (dis2 - debor2)
+
+var popup = new mapboxgl.Popup({ closeOnClick: false })
+.setLngLat([2.4327850341796875,6.347454014017082])
+.setHTML('Distance disponible <br> '+ dist2.toFixed([2]) + " m")
+.addTo(map);
+
+
+
+
+
+
+
+          //Récupération de la pisition du bateau à quai
+       //   let positionDuNavire = [
+            // Pour avoir sa longitude tu vas devoir faire long_fin - lng_debut
+         // [data[i].LATITUDE_DEBUT,data[i].LONGITUDE_DEBUT ],
+          //[data[i].LATITUDE_FIN, data[i].LONGITUDE_FIN] 
+//Essaie je vais essaiyer avec les variable du webservoce
+             
+              //2.425611,6.348434
+         //] 
+
+
+   var from1 = [2.426535487174988,6.348504324887223] 
+   var to1 = [2.4240195751190186,6.3483337161606235]     
+
+         var to_debor1 = 100
+      var from_debor1 = 75
+
+      var debor1 = (to_debor1 + from_debor1)
+
+      var options1 = {
+        units: 'kilometers'
+      }; // Important unité de mésure
+
+      var distance1 = turf.distance(to1, from1, options1); // Calcule la distance en kilomètre
+      var dis1 = (distance1 * 1000) // Conversion en mètre
+      var dist1 = (dis1 - debor1)
+
+var popup = new mapboxgl.Popup({ closeOnClick: false })
+.setLngLat([2.4261975288391113,6.348488330321507])
+.setHTML('Distance disponible <br> '+ dist1.toFixed([2]) + " m")
+.addTo(map);
+
+
+         // console.log(positionDuNavire);
+
+         //for (a = 0  ; a< positionDuNavire.length; a++ ){
+
+          // console.log(positionDuNavire);
+         //}
+          // jai passer des donner 
+          // tu t'es trompé position du bateau est un tableau de deux coordonnées, par contre positionDeTousLesBateaux est un tableau de position
+          // après avoir trouvé la position du bateau i on l'ajoute au tableau des positions
+
+          //Maintenant si tu veux ajouter ta fenêtre de commentaire tu peux l'ajouter
+     //     var popup = new mapboxgl.Popup({ closeOnClick: false })
+      //    .setLngLat( [2.426424,6.348464] ) //[2.426424,6.348464])
+      //    .setHTML('Distance disponible <br> '+data[i].NAVIRE + " ")
+      //    .addTo(map);
+      var from =  [ 2.419610,6.347955] //lng, lat [data[0].lon,data[0].lat]
+      var to = [2.422401,6.348169] //lng, lat 
+
+
+            
+
+      var to_debor = 75
+      var from_debor = 75
 
       var debor = (to_debor + from_debor)
 
@@ -79,115 +517,80 @@
 
       var options = {
         units: 'kilometers'
-      }; // units can be degrees, radians, miles, or kilometers, just be sure to change the units in the text box to match. 
+      }; // Important unité de mésure
 
-      var distance = turf.distance(to, from, options);
-      var dis = (distance * 1000)
+      var distance = turf.distance(to, from, options); // Calcule la distance en kilomètre
+      var dis = (distance * 1000) // Conversion en mètre
       var dist = (dis - debor)
-      var value = document.getElementById('map-overlay')
-     value.innerHTML = "Distance : " + dis.toFixed([2]) + " m <br>" + "Deb_avant : " + from_debor + "m <br> Deb_arrière : " + to_debor + "m"
-
-map.on('load', function () {
-map.addSource('route', {
-'type': 'geojson',
-'data': {
-'type': 'Feature',
-'properties': {},
-'geometry': {
-'type': 'LineString',
-'coordinates': [
-[2.426965, 6.348498],
-[2.425611,6.348434]
-]
-}
-}
-});
-map.addLayer({
-'id': 'route',
-'type': 'line',
-'source': 'route',
-'layout': {
-'line-join': 'round',
-'line-cap': 'round'
-},
-'paint': {
-'line-color': '#2AE504',
-'line-width': 5
-}
-});
-});
-
-
-
-map.on('load', function () {
-map.addSource('route2', {
-'type': 'geojson',
-'data': {
-'type': 'Feature',
-'properties': {},
-'geometry': {
-'type': 'LineString',
-'coordinates': [
-[2.428591,6.348596],
-[2.426965,6.348498]
-]
-}
-}
-});
-map.addLayer({
-'id': 'route2',
-'type': 'line',
-'source': 'route2',
-'layout': {
-'line-join': 'round',
-'line-cap': 'round'
-},
-'paint': {
-'line-color': '#BE9A6B',
-'line-width': 7
-}
-});
-});
-
-
-
-
-map.on('load', function () {
-map.addSource('route3', {
-'type': 'geojson',
-'data': {
-'type': 'Feature',
-'properties': {},
-'geometry': {
-'type': 'LineString',
-'coordinates': [
-[2.425611,6.348434],
-[2.424436,6.348343]
-]
-}
-}
-});
-map.addLayer({
-'id': 'route3',
-'type': 'line',
-'source': 'route3',
-'layout': {
-'line-join': 'round',
-'line-cap': 'round'
-},
-'paint': {
-'line-color': '#fc4353',
-'line-width': 7
-}
-});
-});
-
-            
 
 var popup = new mapboxgl.Popup({ closeOnClick: false })
-.setLngLat([2.426424,6.348464])
+.setLngLat([2.4217182397842407,6.348147112801184])
 .setHTML('Distance disponible <br> '+ dist.toFixed([2]) + " m")
 .addTo(map);
+
+
+
+
+
+
+             }
+
+
+  }})
+ 
+
+
+      // Variable Aléatoire 
+      // Qui réceptionne les coordonées des bolard  
+
+
+
+/*
+     
+
+
+
+        // Après avoir récupéré toutes les positions on les afficher en les passant dans coordinates
+        map.on('load', function () {
+
+            map.addSource('route', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'Feature',
+                    'properties': {},
+                    'geometry': {
+                        'type': 'LineString',
+                        'coordinates': [ 
+                          positionDeTousLesBateaux
+
+                        // Désolé ce sont mes raccourcis mac que j'essaie d'appliquer chez toi
+                        /* data[i].LATITUDE_DEBUT - data[i].LONGITUDE_DEBUT
+                            [2.426965, 6.348498], 
+                        // data[i].LATITUDE_FIN - data[i].LONGITUDE_Fin
+                            [2.425611,6.348434]
+                        ]
+                    }
+                }
+            });
+
+            map.addLayer({
+                'id': 'route',
+                'type': 'line',
+                'source': 'route',
+                'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                'paint': {
+                    'line-color': '#888',
+                    'line-width': 15
+                }
+            });
+
+          }); */
+  
+
+
 
     </script>
   </body>
